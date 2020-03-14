@@ -38,13 +38,9 @@ $(function() {
 
 
 	Scene.Start();
-
 	requestAnimationFrame(mainLoop);
 
 });
-
-
-
 
 
 //X & Y coordinates
@@ -1531,7 +1527,7 @@ function Player() {
         //console.log("Player position: (" + this.transform.position.x + ", " + this.transform.position.y + ")");
         //console.log("Player tile: (" + Math.floor(this.transform.position.x/16) + ", " + Math.floor(this.transform.position.y/16) + ")");
 
-        scene.Camera.transform.position = lerp(scene.Camera.transform.position, this.transform.position, scene.deltaTime*0.004);
+        scene.Camera.transform.position = lerp(scene.Camera.transform.position, this.transform.position, scene.deltaTime*0.1); //Fixed the jiggling by changing the deltaTime multiplier
 
         //Store previous values of X and Y (for collisions)
         this.prevX = this.transform.position.x;
@@ -1812,6 +1808,7 @@ function TileRenderer() {
 
         console.log("after map load");
 
+
 		this.map = mapData;
 
         //For Joey
@@ -2019,24 +2016,11 @@ function Camera() {
 	this.offset.y = 240/2;
 
 	this.Start = function(scene) {
-
-
 	}
-
-
 	this.Update = function(scene) {
-
-
 	}
-
 	this.Draw = function(scene) {
-
-
-
 	}
-
-
-
 }
 
 
