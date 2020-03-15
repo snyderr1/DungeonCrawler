@@ -69,7 +69,57 @@ function BoxCollider(width, height, parent) {
     this.isTrigger = false; //if true collider only triggers onCollide() functions. Doesn't return
     this.ignorePlayer = false;
 
+	this.runCollisionNoReturn = function(scene, position)
+	{
+		for(var i = 0; i < scene.GameObjects.length; i++) 
+		{
+
+			//Does the object have a box collider?
+			if(scene.GameObjects[i].boxCollider) 
+			{
+
+				if(scene.GameObjects[i].boxCollider != this) 
+				{
+                    if(scene.GameObjects[i].hasOwnProperty("type") && scene.GameObjects[i].type == "Player" && this.ignorePlayer) 
+					{
+
+                    }
+                    else 
+					{
+                        if (position.x < scene.GameObjects[i].transform.position.x + scene.GameObjects[i].boxCollider.width &&
+                       position.x + this.width > scene.GameObjects[i].transform.position.x &&
+                       position.y < scene.GameObjects[i].transform.position.y + scene.GameObjects[i].boxCollider.height &&
+                       this.height + position.y > scene.GameObjects[i].transform.position.y) 
+					   {
+
+
+							if(this.parent.onCollide) 
+							{
+								
+								this.parent.onCollide(scene, scene.GameObjects[i]);
+								return;
+							}
+
+
+					   }
+                    }
+
+
+
+				}
+
+			}
+
+		}
+	}
+
 	this.checkCollision = function(scene, position) {
+
+	
+		
+
+
+
         if(!this.isTrigger) {
     		//Get tile id
     		var tileID;
@@ -87,6 +137,8 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
+					
+							this.runCollisionNoReturn(scene,position);
     						return true;
 
 
@@ -101,6 +153,8 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
+							
+							this.runCollisionNoReturn(scene,position);
     						return true;
 
 
@@ -115,6 +169,8 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
+							
+							this.runCollisionNoReturn(scene,position);
     						return true;
 
 
@@ -129,6 +185,8 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
+							
+							this.runCollisionNoReturn(scene,position);
     						return true;
 
 
@@ -213,7 +271,8 @@ function BoxCollider(width, height, parent) {
                                 this.parent.onCollide(scene, scene.GameObjects[i]);
                             }
                             else {
-                            return this.parent.onCollide(scene, scene.GameObjects[i]);}
+								return this.parent.onCollide(scene, scene.GameObjects[i]);
+							}
 
                         }
 
