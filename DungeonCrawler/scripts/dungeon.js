@@ -1472,7 +1472,7 @@ function Player() {
 	this.transform.position.x = 7*16;
 	this.transform.position.y = 13*16;
 
-	this.speed = 0.1;
+	this.speed = .1;
 
 	this.health = 100;
 	this.img = document.getElementById("characters");
@@ -1552,6 +1552,7 @@ function Player() {
 
 
 	this.setPosition = function(x, y) {
+	    //console.log("here!");
 		this.transform.position.x = x;
 		this.transform.position.y = y;
 		this.prevX = x;
@@ -1887,7 +1888,7 @@ function TileRenderer() {
 
         this.floatBuffer.width = this.map.width * 16;
         this.floatBuffer.height = this.map.height * 16;
-
+        scene.player.resetKnockBack();
         for(var i = 0; i < this.map.layers.length; i++) {
 
                 if(this.map.layers[i].type == "tilelayer") {
