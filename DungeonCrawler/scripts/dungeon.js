@@ -67,31 +67,31 @@ function BoxCollider(width, height, parent) {
 
 	this.runCollisionNoReturn = function(scene, position)
 	{
-		for(var i = 0; i < scene.GameObjects.length; i++) 
+		for(var i = 0; i < scene.GameObjects.length; i++)
 		{
 
 			//Does the object have a box collider?
-			if(scene.GameObjects[i].boxCollider) 
+			if(scene.GameObjects[i].boxCollider)
 			{
 
-				if(scene.GameObjects[i].boxCollider != this) 
+				if(scene.GameObjects[i].boxCollider != this)
 				{
-                    if(scene.GameObjects[i].hasOwnProperty("type") && scene.GameObjects[i].type == "Player" && this.ignorePlayer) 
+                    if(scene.GameObjects[i].hasOwnProperty("type") && scene.GameObjects[i].type == "Player" && this.ignorePlayer)
 					{
 
                     }
-                    else 
+                    else
 					{
                         if (position.x < scene.GameObjects[i].transform.position.x + scene.GameObjects[i].boxCollider.width &&
                        position.x + this.width > scene.GameObjects[i].transform.position.x &&
                        position.y < scene.GameObjects[i].transform.position.y + scene.GameObjects[i].boxCollider.height &&
-                       this.height + position.y > scene.GameObjects[i].transform.position.y) 
+                       this.height + position.y > scene.GameObjects[i].transform.position.y)
 					   {
 
 
-							if(this.parent.onCollide) 
+							if(this.parent.onCollide)
 							{
-								
+
 								this.parent.onCollide(scene, scene.GameObjects[i]);
 								return;
 							}
@@ -111,8 +111,8 @@ function BoxCollider(width, height, parent) {
 
 	this.checkCollision = function(scene, position) {
 
-	
-		
+
+
 
 
 
@@ -133,7 +133,7 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
-					
+
 							this.runCollisionNoReturn(scene,position);
     						return true;
 
@@ -149,7 +149,7 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
-							
+
 							this.runCollisionNoReturn(scene,position);
     						return true;
 
@@ -165,7 +165,7 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
-							
+
 							this.runCollisionNoReturn(scene,position);
     						return true;
 
@@ -181,7 +181,7 @@ function BoxCollider(width, height, parent) {
 
     				if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()]) {
     					if(scene.tileRenderer.map.tilesets[0].tileproperties[tileID.toString()].isSolid) {
-							
+
 							this.runCollisionNoReturn(scene,position);
     						return true;
 
@@ -515,13 +515,12 @@ function Slime(x,y) {
     }
 
     this.onCollide = function(scene, collider) {
-        if(collider.type == "StaticProp") {
+        if(collider.type == "StaticProp" || collider.type == "Player") {
             collider.onCollide(scene, this);
             return true;
         }
         if(collider.type == "Enemy") {
             //return true;
-
         }
         if(collider.type == "Attack") {
             this.getHit(collider);
@@ -662,7 +661,7 @@ function Skeleton(x,y) {
     }
 
     this.onCollide = function(scene, collider) {
-        if(collider.type == "StaticProp") {
+        if(collider.type == "StaticProp" || collider.type == "Player") {
             collider.onCollide(scene, this);
             return true;
         }
@@ -1008,7 +1007,7 @@ function Boss(x,y) {
     }
 
     this.onCollide = function(scene, collider) {
-        if(collider.type == "StaticProp") {
+        if(collider.type == "StaticProp" || collider.type == "Player") {
             collider.onCollide(scene, this);
             return true;
         }
@@ -1470,7 +1469,7 @@ function Player() {
 
 	this.speed = .1;
 
-	this.health = 100;
+	this.health = 10000;
 	this.img = document.getElementById("characters");
 	this.imgRed = document.getElementById("charactersRed");
 	this.imgWhite = document.getElementById("charactersWhite");
@@ -1563,7 +1562,7 @@ function Player() {
 		if(collider.type) {
 			if(collider.type == "StaticProp") {
 				collider.onCollide(scene, this);
-                return true;
+				return true;
 			}
 			if(collider.type == "Chest") {
 				collider.isOpen = 1;
@@ -1571,6 +1570,8 @@ function Player() {
 			}
 			if(collider.type == "Enemy") {
 				this.getHit(collider);
+				//collider.onCollide(scene, this);
+        return true;
 			}
             if(collider.type == "Attack") {
                 this.getHit(collider);
